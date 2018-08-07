@@ -56,3 +56,11 @@ h2 {
     bottom: 0;
     width: 100%;
 }
+
+img {
+    margin: 10px;
+    height: 200px;
+    width: 275px;
+    border: double black 2px;
+    
+}

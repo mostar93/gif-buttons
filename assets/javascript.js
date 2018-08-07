@@ -1,6 +1,10 @@
 var newButton;
 var newGifs = 0;
-
+var image;
+var results;
+// var gifDiv;
+var i = 0;
+var p;
 $(document).ready(function() {
     var startButtons = ["kobe bryant", "james harden", "lebron james", "allen iverson", "michael jordan"]
     
@@ -26,32 +30,47 @@ $(document).ready(function() {
             url: queryURL,
             method: "GET",
         }).then(function(response) {
-            var results = response.data;
+            results = response.data;
             console.log(results);
             for ( i = 0; i < results.length; i++) {
-                console.log(results[i].images.fixed_height.url);
+                console.log(results[i].images.fixed_width_still.url);
                 console.log(results[i].rating);
-                var gifDiv = $("<div class='item'>");
-
-                var rating = results[i].rating;
-                var p = $("<p>").text("Rating: " + rating);
-
-                var image = $("<img>");
-                image.attr("src", results[i].images.fixed_height.url);
-                gifDiv.prepend(p);
-                gifDiv.prepend(image);
-
+                var imageurl = results[i].images.fixed_width_still.url;
+                var animate = results[i].images.fixed_width.url;
+                // var rating = results[i].rating;
+                // p = $("<p>").text("Rating: " + rating);
+                var gifDiv = $("<img>");
+                gifDiv.attr("src", imageurl);
+                gifDiv.attr({
+                    "data-still": imageurl,
+                    "data-animate": animate,
+                    "data-state": "still",
+                    "class": "gif",
+                })
+                
+                // gifDiv.prepend(p.text());
                 $("#gifDisplay").prepend(gifDiv);
 
             }
-            
-            // console.log(newButton);
 
         })
+        
     })
 
-    
-    
-    
+    $("#gifDisplay").on("click", ".gif", function(){
+        
+        var state = $(this).attr("data-state");
 
+        if (state === "still") {
+            var url = $(this).attr("data-animate");
+            $(this).attr("src", url);
+            $(this).attr("data-state", "animate");
+            // $(this).attr()
+        } else if (state === "animate") {
+            var url = $(this).attr("data-still");
+            $(this).attr("src", url);
+            $(this).attr("data-state", "still");
+        }
+    })
+  
 });
