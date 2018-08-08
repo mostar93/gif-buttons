@@ -58,9 +58,23 @@ h2 {
 }
 
 img {
-    margin: 10px;
     height: 200px;
     width: 275px;
     border: double black 2px;
     
+}
+
+#searchSubject {
+    background: lightblue;
+    padding: 1%;
+
+}
+
+.gifBox {
+    width: 100%;
+    clear: left;
+}
+
+#gifRow {
+    clear: left;
 }

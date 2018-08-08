@@ -4,9 +4,10 @@ var image;
 var results;
 // var gifDiv;
 var i = 0;
-var p;
+
 $(document).ready(function() {
-    var startButtons = ["kobe bryant", "james harden", "lebron james", "allen iverson", "michael jordan"]
+    $("#searchSubject").hide();
+    var startButtons = ["Kobe Bryant", "James Harden", "Lebron James", "Allen Iverson", "Michael Jordan"]
     
     for (n = 0; n < startButtons.length; n++){
         console.log(startButtons[n]);
@@ -19,6 +20,7 @@ $(document).ready(function() {
         
         newButton = $("<button class='btn btn-success click' data-thing ='" + searchSubject +  "'>").text(searchSubject);
         $("#buttonDisplay").append(newButton);
+        $("#input").val('');
     })
 
     $(document).on("click", ".click", function(){
@@ -33,13 +35,18 @@ $(document).ready(function() {
             results = response.data;
             console.log(results);
             for ( i = 0; i < results.length; i++) {
-                console.log(results[i].images.fixed_width_still.url);
-                console.log(results[i].rating);
+                // console.log(results[i].images.fixed_width_still.url);
+                // console.log(results[i].rating);
                 var imageurl = results[i].images.fixed_width_still.url;
                 var animate = results[i].images.fixed_width.url;
-                // var rating = results[i].rating;
-                // p = $("<p>").text("Rating: " + rating);
+                var theBigDiv = $("<div class='gifBox'>");
                 var gifDiv = $("<img>");
+                
+                var p1 = $("<p>").text("Title: " + results[i].title);
+                var p2 = $("<p>").text("Rating: " + results[i].rating);
+                // var p3 = $("<p>").text("Rating: " + results[i].rating);
+                // var p4 = $("<p>").text("Rating: " + results[i].rating);
+                // console.log(p);
                 gifDiv.attr("src", imageurl);
                 gifDiv.attr({
                     "data-still": imageurl,
@@ -47,9 +54,13 @@ $(document).ready(function() {
                     "data-state": "still",
                     "class": "gif",
                 })
-                
-                // gifDiv.prepend(p.text());
-                $("#gifDisplay").prepend(gifDiv);
+                theBigDiv.prepend(gifDiv);
+                theBigDiv.append(p1);
+                theBigDiv.append(p2);
+                $("#gifDisplay").prepend(theBigDiv);
+                // $("#gifDisplay").prepend(results[i].rating);
+                $("#searchSubject").text(searchSubject).show();
+
 
             }
 
@@ -57,9 +68,10 @@ $(document).ready(function() {
         
     })
 
-    $("#gifDisplay").on("click", ".gif", function(){
+    $(document).on("click", ".gif", function(){
         
         var state = $(this).attr("data-state");
+        
 
         if (state === "still") {
             var url = $(this).attr("data-animate");
